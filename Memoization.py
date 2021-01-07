@@ -1,45 +1,24 @@
-import sys
-
-sys.setrecursionlimit(999999)
 
 
-def memoization(items, capacity):
-    n = len(items)
-    w = capacity
-    taken = [0] * len(items)
+def memoization(s1, s2):
+    maxLength = max(len(s1), len(s2))
     mem = {}
 
-    def solved(items, w, n):
-        if n == 0 or w == 0:
-            return 0
+    def getKey(l1, l2, count):
+        key = str(l1) + "|" + str(l2) + "|" + str(count)
+        return key
 
-        key = str(str(n) + ": " + str(w))
-        if key in mem:
-            return mem.get(key)
-        else:
-            item = items[n-1]
-            if item.weight <= w:
-                mem[key] = max(item.value + solved(items, w - item.weight, n - 1), solved(items, w, n - 1))
-            else:
-                mem[key] = solved(items, w, n - 1)
-            return mem[key]
+    def findLengthLCS(mem, s1, s2, l1, l2, count):
+        if l1 == len(s1) or l2 == len(s2):
+            return count
+        key = getKey(l1, l2, count)
+        if key not in mem:
+            c1 = count
+            if s1[l1] == s2[l2]:
+                c1 = findLengthLCS(mem, s1, s2, l1+1, l2+1, count+1)
+            c2 = findLengthLCS(mem, s1, s2, l1, l2+1, 0)
+            c3 = findLengthLCS(mem, s1, s2, l1+1, l2, 0)
+            mem[key] = max(c1, max(c2, c3))
+        return mem[key]
 
-    value = solved(items, w, n)
-    i = len(items)
-    k = capacity
-    key1 = str(str(i) + ": " + str(k))
-    key2 = str(str(i-1) + ": " + str(k))
-    while i > 0 and k > 0:
-        if key1 in mem and key2 in mem:
-            if mem[key1] != mem[key2]:
-                taken[i-1] = 1
-                i -= 1
-                k -= items[i].weight
-            else:
-                i -= 1
-        else:
-            i -= 1
-        key1 = str(str(i) + ": " + str(k))
-        key2 = str(str(i - 1) + ": " + str(k))
-
-    return value, taken
+    return findLengthLCS(mem, s1, s2, 0, 0, 0)
