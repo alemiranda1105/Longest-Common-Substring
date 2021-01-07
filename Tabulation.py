@@ -1,33 +1,17 @@
 import numpy as np
 
 
-def fillTable(table, items, capacity):
-    for i in range(1, len(items)+1):
-        for w in range(capacity+1):
-            if items[i-1].weight <= w:
-                if items[i-1].value + table[i-1][w-items[i-1].weight] > table[i-1][w]:
-                    table[i][w] = items[i-1].value + table[i-1][w-items[i-1].weight]
-                else:
-                    table[i][w] = table[i-1][w]
+def tabulation(s1, s2):
+    table = np.zeros((len(s1)+1, len(s2)+1))
+    result = 0
+    for i in range(0, len(s1)):
+        for j in range(0, len(s2)):
+            if i == 0 or j == 0:
+                table[i+1][j+1] = 0
+            elif s1[i] == s2[j]:
+                table[i+1][j+1] = table[i][j] + 1
+                result = max(result, table[i+1][j+1])
             else:
-                table[i][w] = table[i-1][w]
-    return table
-
-
-def tabulation(items, capacity):
-    i = len(items)
-    k = capacity
-
-    taken = [0] * len(items)
-    table = np.zeros((len(items)+1, capacity+1))
-    table = fillTable(table, items, capacity)
-
-    while i > 0 and k > 0:
-        if table[i][k] != table[i-1][k]:
-            taken[i-1] = 1
-            i -= 1
-            k -= items[i].weight
-        else:
-            i -= 1
-
-    return table[len(items)-1][capacity], taken
+                table[i+1][j+1] = 0
+    # Coversión a Int para evitar que devuelva un resultado.0
+    return int(result)
