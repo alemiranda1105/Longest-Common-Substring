@@ -55,15 +55,18 @@ def withFile(file):
         t0 = time.time()
         value = tabulation(s1, s2)
         t1 = time.time()
+    elif args.check:
+        mem = memoization(s1, s2)
+        tab = tabulation(s1, s2)
+        print("Check:", (mem == tab))
+        print("Memoization =", mem)
+        print("Tabulation =", tab)
     else:
         print("Introduzca un metodo, por favor")
         exit(-1)
 
-    if args.showValue:
+    if args.showValue and not args.check:
         print(value)
-    if args.check:
-        # Comprobar memoization y tabulation
-        print("Check")
     if args.timer:
         t = (t1 - t0)
         print("Time =", round(t, 3), "s")
