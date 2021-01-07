@@ -1,7 +1,6 @@
 
 
 def memoization(s1, s2):
-    maxLength = max(len(s1), len(s2))
     mem = {}
 
     def getKey(l1, l2, count):
