@@ -20,4 +20,4 @@ def memoization(s1, s2):
             mem[key] = max(c1, max(c2, c3))
         return mem[key]
 
-    return findLengthLCS(mem, s1, s2, 0, 0, 0 )
+    return findLengthLCS(mem, s1, s2, 0, 0, 0)
