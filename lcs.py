@@ -1,5 +1,4 @@
 from argparse import ArgumentParser
-from Greedy import *
 from Memoization import *
 from Tabulation import *
 import DataReader as dr
@@ -40,12 +39,7 @@ def withFile(file):
     s1, s2 = dr.readFile(file)
     t0 = 0
     t1 = 0
-    if args.greedy:
-        print("Solving it with Greedy")
-        t0 = time.time()
-        value = greedy(s1, s2)
-        t1 = time.time()
-    elif args.memoization:
+    if args.memoization:
         print("Solving it with Memoization")
         t0 = time.time()
         value = memoization(s1, s2)
@@ -66,7 +60,7 @@ def withFile(file):
         exit(-1)
 
     if args.showValue and not args.check:
-        print(value)
+        print("Value =", value)
     if args.timer:
         t = (t1 - t0)
         print("Time =", round(t, 3), "s")

@@ -10,7 +10,7 @@ def readAllFiles(path):
 
 
 def readFile(file):
-    f = open(file, "r")
+    f = open(file, "r", encoding='utf-8')
     content = f.read().split('\n')
     return content[0],  content[1]
 
